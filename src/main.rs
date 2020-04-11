@@ -1,26 +1,17 @@
 fn main() {
-    let s = String::from("Hello");
+    let s = String::from("Hello world");
 
-    let len = calculate_length(&s);
-
-    let mut mutatable_s = String::from("Hello");
-    let mutated_len = modify_and_calculate_length(&mut mutatable_s);
-
-    println!(
-        "The length of '{}' is {} and mutatable is '{}' with length of {}",
-        s, len, mutatable_s, mutated_len
-    );
+    println!("{}", first_word(&s));
 }
 
-// In the below function s is "borrowed" from the calling scope...
-fn calculate_length(s: &String) -> usize {
-    s.len()
-}
-// So drop isn't called here, meaning it's still in scope in main()
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
 
-// This example is the same as above, only we're mutating the variable passed in
-fn modify_and_calculate_length(s: &mut String) -> usize {
-    s.push_str(", world");
-    s.len()
+    for (index, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..index];
+        }
+    }
+
+    &s[..]
 }
-// This will mutate the value in the calling scope
