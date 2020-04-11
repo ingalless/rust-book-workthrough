@@ -1,61 +1,62 @@
+const DIFF: i32 = 32;
+const CELSIUS_FACTOR: f64 = 1.8;
+
 fn main() {
-    let number = 3;
-    if number < 5 {
-        println!("Condition was true");
-    } else {
-        println!("Condition was false");
-    }
+    let unit = loop {
+        let mut units = String::new();
 
-    println!("The value of this is {}", conditional());
-    a_loop();
-    lift_off();
-    for_loop();
-    a_range();
-}
+        println!("(c)elsius or (f)arrenheit?");
 
-fn conditional() -> i32 {
-    let condition = false;
-    let number = if condition { 5 } else { 6 };
-    number
-}
-
-fn a_loop() {
-    let mut counter = 0;
-
-    let result = loop {
-        counter += 1;
-        if counter == 10 {
-            // Result gets assigned the value of the break return
-            break counter * 2;
+        std::io::stdin()
+            .read_line(&mut units)
+            .expect("Failed to read line");
+        units = String::from(units.trim()).to_lowercase();
+        if units == "c" || units == "f" {
+            break units;
+        } else {
+            continue;
         }
     };
 
-    println!("The result is {}", result);
-}
+    let temp: i32 = loop {
+        let mut response = String::new();
 
-fn lift_off() {
-    let mut counter = 3;
+        println!("What's the temperature you wish to convert?");
 
-    while counter != 0 {
-        println!("{}!", counter);
-        counter -= 1;
-    }
-
-    println!("LIFT OFF!");
-}
-
-fn for_loop() {
-    let a = [10, 20, 30, 40, 50];
-
-    for element in a.iter() {
-        println!("The value is: {}", element);
+        std::io::stdin()
+            .read_line(&mut response)
+            .expect("Failed to read line");
+        match response.trim().parse() {
+            Ok(num) => break num,
+            Err(_) => continue,
+        };
+    };
+    if unit == "c" {
+        println!("Temp is {} celsius", convert_to_farrenheit(temp));
+    } else if unit == "f" {
+        println!("Temp is {} celsius", convert_to_celsius(temp));
     }
 }
 
-fn a_range() {
-    for number in (1..4).rev() {
-        println!("{}!", number);
-    }
+fn convert_to_celsius(temp: i32) -> i32 {
+    let diff = temp - DIFF;
+    (diff as f64 / CELSIUS_FACTOR).round() as i32
+}
 
-    println!("Lifted off with cleaner code!");
+fn convert_to_farrenheit(temp: i32) -> i32 {
+    (temp as f64 * CELSIUS_FACTOR + DIFF as f64).round() as i32
+}
+
+#[test]
+fn converts_to_celsius() {
+    assert_eq!(-46, convert_to_celsius(-50));
+    assert_eq!(-18, convert_to_celsius(0));
+    assert_eq!(10, convert_to_celsius(50));
+}
+
+#[test]
+fn converts_to_farrenheit() {
+    assert_eq!(-58, convert_to_farrenheit(-50));
+    assert_eq!(32, convert_to_farrenheit(0));
+    assert_eq!(122, convert_to_farrenheit(50));
 }
