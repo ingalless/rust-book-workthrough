@@ -32,7 +32,7 @@ fn main() {
         };
     };
     if unit == "c" {
-        println!("Temp is {} celsius", convert_to_farrenheit(temp));
+        println!("Temp is {} farrenheit", convert_to_farrenheit(temp));
     } else if unit == "f" {
         println!("Temp is {} celsius", convert_to_celsius(temp));
     }
