@@ -13,7 +13,7 @@ fn main() {
 } // Here, x goes out of scope, then s. But because s's value was moved, nothing
   // special happens.
 
-fn references_string(some_string: &String) -> String {
+fn takes_ownership_and_gives_back(some_string: &String) -> String {
     // some_string comes into scope
     println!("{}", some_string);
     some_string
