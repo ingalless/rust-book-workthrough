@@ -17,6 +17,8 @@ fn main() {
     user.email = String::from("jennifer@ingallnet.co.uk");
 
     let user2 = build_user(String::from("jonny@ingall.com"), String::from("ingalless"));
+    let user3 =
+        build_new_from_existing_user(String::from("email"), String::from("username"), user2);
 }
 
 fn build_user(email: String, username: String) -> User {
@@ -25,5 +27,14 @@ fn build_user(email: String, username: String) -> User {
         username,
         active: true,
         sign_in_count: 1,
+    }
+}
+
+// Below illustrates update syntax, kind of like javascript object spread!
+fn build_new_from_existing_user(email: String, username: String, user: User) -> User {
+    User {
+        email,
+        username,
+        ..user
     }
 }
