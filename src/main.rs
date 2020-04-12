@@ -1,10 +1,20 @@
-struct Color(i32, i32, i32);
-struct Point(i32, i32, i32);
+#[derive(Debug)]
+struct Rectangle {
+    height: u32,
+    width: u32,
+}
 
 fn main() {
-    let black = Color(0, 0, 0);
-    let origin = Point(0, 0, 0);
+    let rectangle = Rectangle {
+        height: 30,
+        width: 50,
+    };
 
-    // Although the above tuples are identical in signature,
-    // you wouldn't be able to use a Point instead of a Color in a function
+    println!("The area of the rectangle is {}", area(&rectangle));
+    println!("Rectangle is {:?}", rectangle);
+    println!("And even prettier it is {:#?}", rectangle);
+}
+
+fn area(rect: &Rectangle) -> u32 {
+    rect.height * rect.width
 }
